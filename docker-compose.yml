@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=file:./dev.db
+      - JWT_SECRET=production_secret_key_change_this
+      - PORT=4000
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - ./server/prisma:/app/prisma
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+    depends_on:
+      - server
