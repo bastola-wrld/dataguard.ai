@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("USER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tenantId  String?
+  tenant    Tenant?  @relation(fields: [tenantId], references: [id])
+}
+
+model Tenant {
+  id          String       @id @default(uuid())
+  name        String
+  users       User[]
+  assets      Asset[]
+  credentials Credential[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Asset {
+  id              String          @id @default(uuid())
+  cloudId         String
+  name            String
+  type            String
+  region          String
+  provider        String
+  tenantId        String
+  tenant          Tenant          @relation(fields: [tenantId], references: [id])
+  vulnerabilities Vulnerability[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@unique([tenantId, cloudId])
+}
+
+model Vulnerability {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  severity    String
+  status      String
+  assetId     String
+  asset       Asset    @relation(fields: [assetId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Credential {
+  id         String   @id @default(uuid())
+  provider   String
+  accountId  String
+  roleArn    String?
+  externalId String?
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
