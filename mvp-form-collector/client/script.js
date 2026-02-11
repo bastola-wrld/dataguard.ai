@@ -24,7 +24,7 @@ form.addEventListener('submit', async (e) => {
         const headers = { 'Content-Type': 'application/json' };
         if (token) headers['Authorization'] = `Bearer ${token}`;
 
-        const response = await fetch('http://localhost:4001/api/submissions', {
+        const response = await fetch(`${FORM_CONFIG.API_URL}/submissions`, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(formData)

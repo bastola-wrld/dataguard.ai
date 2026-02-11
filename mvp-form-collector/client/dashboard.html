@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | NexGen Feedback</title>
     <link rel="stylesheet" href="style.css">
+    <script src="config.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         .submission-card {
@@ -88,7 +89,7 @@
         document.getElementById('userName').textContent = user.name || user.email;
 
         async function loadSubmissions() {
-            const res = await fetch('http://localhost:4001/api/my-submissions', {
+            const res = await fetch(`${FORM_CONFIG.API_URL}/my-submissions`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!res.ok) { logout(); return; }

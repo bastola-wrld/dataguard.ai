@@ -53,9 +53,11 @@
     ```
     _Client runs on http://localhost:3000_
 
-4.  **Login**
-    -   Email: `agent@dataguard.ai`
-    -   Password: `password123`
+4.  **Registration & Verification**
+    -   Go to `http://localhost:3000/signup`
+    -   Register your email (Verification is mocked; check the **Backend Server Logs** for the verification link).
+    -   Follow the link in the logs to activate your account.
+    -   Sign in with your verified credentials.
 
 ### 🐳 Run with Docker
 

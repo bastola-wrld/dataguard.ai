@@ -20,6 +20,11 @@ export class AuthController {
         return this.authService.register(body);
     }
 
+    @Post('verify')
+    async verify(@Body('token') token: string) {
+        return this.authService.verify(token);
+    }
+
     @UseGuards(AuthGuard('jwt'))
     @Get('profile')
     getProfile(@Request() req: any) {
