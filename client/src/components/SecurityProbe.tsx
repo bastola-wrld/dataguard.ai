@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Shield, Search, Zap, CheckCircle2, AlertTriangle, Cloud, Lock, Server } from 'lucide-react';
+import { Shield, Search, Zap, CheckCircle2, AlertTriangle, Cloud, Lock, Server, Loader2 } from 'lucide-react';
 
 interface ProbeStep {
     id: number;
@@ -67,9 +67,9 @@ export function SecurityProbe({ onComplete }: { onComplete?: () => void }) {
                     <div
                         key={step.id}
                         className={`p-4 rounded-2xl border transition-all duration-500 ${step.status === 'probing' ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/10 scale-[1.02]' :
-                                step.status === 'vulnerable' ? 'border-red-500 bg-red-50/50 dark:bg-red-900/10' :
-                                    step.status === 'secure' ? 'border-green-500 bg-green-50/50 dark:bg-green-900/10' :
-                                        'border-zinc-100 dark:border-zinc-800 text-zinc-400'
+                            step.status === 'vulnerable' ? 'border-red-500 bg-red-50/50 dark:bg-red-900/10' :
+                                step.status === 'secure' ? 'border-green-500 bg-green-50/50 dark:bg-green-900/10' :
+                                    'border-zinc-100 dark:border-zinc-800 text-zinc-400'
                             }`}
                     >
                         <div className="flex items-center justify-between mb-2">

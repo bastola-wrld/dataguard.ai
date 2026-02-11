@@ -34,3 +34,11 @@ export async function applyRemediation(id: string, token: string) {
     if (!res.ok) throw new Error('Failed to apply remediation');
     return res.json();
 }
+const api = {
+    fetchVulnerabilities,
+    generateMockFindings,
+    createRemediationPlan,
+    applyRemediation
+};
+
+export default api;
