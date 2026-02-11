@@ -10,6 +10,7 @@
 -   **⚠️ Real-Time Risk Feed**: Live vulnerability streaming via WebSockets.
 -   **🧠 AI Remediation Agent**: Uses **GPT-4** to analyze vulnerabilities and generate precise **Terraform** fixes.
 -   **🛡️ "Safe-Fix" Sandbox**: Review AI-generated code before applying it to your infrastructure.
+-   **📋 NexGen Feedback MVP**: A secondary project for professional data collection and user feedback management.
 -   **⚡ Real-Time Updates**: Instant status updates across all connected clients.
 
 ## 🛠️ Tech Stack

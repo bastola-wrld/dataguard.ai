@@ -7,12 +7,12 @@ import { RemediationService } from './remediation.service';
 export class RemediationController {
     constructor(private service: RemediationService) { }
 
-    @Post('plan/:id')
+    @Post(':id/plan')
     async generatePlan(@Param('id') id: string) {
         return this.service.createPlan(id);
     }
 
-    @Post('apply/:id')
+    @Post(':id/apply')
     async applyFix(@Param('id') id: string) {
         return this.service.applyFix(id);
     }

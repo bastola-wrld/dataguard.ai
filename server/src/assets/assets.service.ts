@@ -15,8 +15,10 @@ export class AssetsService {
     ) { }
 
     async syncAssets(userId: string) {
+        this.eventsGateway.emitLog(`Starting asset sync for user ${userId}...`);
         this.logger.log(`Syncing assets for user ${userId}`);
         const assets = await this.cloudProvider.scan({});
+        this.eventsGateway.emitLog(`Cloud scan complete. Found ${assets.length} assets.`);
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
 
         if (!user || !user.tenantId) {
@@ -37,6 +39,7 @@ export class AssetsService {
                     name: asset.name,
                     type: asset.type,
                     region: asset.region,
+                    metadata: JSON.stringify(asset.metadata || {}),
                     updatedAt: new Date(),
                 },
                 create: {
@@ -46,6 +49,7 @@ export class AssetsService {
                     type: asset.type,
                     region: asset.region,
                     provider: asset.provider,
+                    metadata: JSON.stringify(asset.metadata || {}),
                 },
             });
             savedAssets.push(saved);

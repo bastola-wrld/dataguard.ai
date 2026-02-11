@@ -26,4 +26,8 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     emitVulnerabilitiesUpdated() {
         this.server.emit('vulnerabilities.updated');
     }
+
+    emitLog(message: string) {
+        this.server.emit('log', { timestamp: new Date(), message });
+    }
 }

@@ -1,17 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
 import OpenAI from 'openai';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AiService {
   private openai: OpenAI;
   private logger = new Logger(AiService.name);
 
-  constructor() {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (apiKey) {
+  constructor(private configService: ConfigService) {
+    const apiKey = this.configService.get<string>('OPENAI_API_KEY');
+    if (apiKey && apiKey !== 'sk-...') {
       this.openai = new OpenAI({ apiKey });
     } else {
-      this.logger.warn('OPENAI_API_KEY not found. AI features will fail or use mock fallback if implemented.');
+      this.logger.warn('OPENAI_API_KEY not found or default placeholder used. AI features will use mock fallback.');
     }
   }
 
@@ -48,6 +49,26 @@ Rules:
     } catch (error) {
       this.logger.error('OpenAI API Call failed', error);
       throw new Error('Failed to generate remediation plan');
+    }
+  }
+
+  async calculateRiskScore(vulnerabilityTitle: string, severity: string): Promise<number> {
+    if (!this.openai) {
+      // Mock score based on severity
+      const base = severity === 'CRITICAL' ? 90 : severity === 'HIGH' ? 70 : severity === 'MEDIUM' ? 40 : 10;
+      return base + Math.floor(Math.random() * 10);
+    }
+
+    try {
+      const prompt = `Calculate a numeric risk score (0-100) for the following vulnerability: "${vulnerabilityTitle}" with initial severity "${severity}". Return ONLY the number.`;
+      const completion = await this.openai.chat.completions.create({
+        messages: [{ role: 'system', content: prompt }],
+        model: 'gpt-4o',
+      });
+      const score = parseInt(completion.choices[0].message.content || '0', 10);
+      return isNaN(score) ? 50 : score;
+    } catch {
+      return 50;
     }
   }
 

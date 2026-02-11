@@ -5,3 +5,7 @@ dist
 *.log
 .next
 .turbo
+*.db
+*.sqlite
+/mvp-form-collector/server/node_modules
+/mvp-form-collector/server/dist

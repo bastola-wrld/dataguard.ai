@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | NexGen Feedback</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .submission-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .submission-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sub-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .sub-meta {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        .sub-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+
+        .nav-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .logout-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="blob-bg"></div>
+    <div class="container" style="max-width: 800px;">
+        <div class="nav-actions">
+            <h1>Identity: <span id="userName" style="color: var(--primary);">User</span></h1>
+            <div class="flex gap-2">
+                <a href="index.html"
+                    style="color: var(--text-dim); text-decoration: none; font-size: 0.9rem; margin-right: 1.5rem;">New
+                    Form</a>
+                <button onclick="logout()" class="logout-btn">Sign Out</button>
+            </div>
+        </div>
+
+        <div id="submissionsList">
+            <p style="text-align: center; color: var(--text-dim);">Retreiving secure records...</p>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('form_token');
+        if (!token) window.location.href = 'login.html';
+
+        const user = JSON.parse(localStorage.getItem('form_user'));
+        document.getElementById('userName').textContent = user.name || user.email;
+
+        async function loadSubmissions() {
+            const res = await fetch('http://localhost:4001/api/my-submissions', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!res.ok) { logout(); return; }
+
+            const data = await res.json();
+            const list = document.getElementById('submissionsList');
+            list.innerHTML = data.length ? '' : '<p style="text-align: center; color: var(--text-dim);">No transmissions found.</p>';
+
+            data.forEach(sub => {
+                const card = document.createElement('div');
+                card.className = 'submission-card';
+                card.innerHTML = `
+                    <div class="sub-title">${sub.title}</div>
+                    <div class="sub-meta">Transmitted on ${new Date(sub.createdAt).toLocaleString()}</div>
+                    <div class="sub-content">${sub.content}</div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        loadSubmissions();
+    </script>
+</body>
+
+</html>

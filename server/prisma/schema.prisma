@@ -39,6 +39,7 @@ model Asset {
   tenantId        String
   tenant          Tenant          @relation(fields: [tenantId], references: [id])
   vulnerabilities Vulnerability[]
+  metadata        String?         // JSON string for flexibility
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
@@ -50,6 +51,7 @@ model Vulnerability {
   title       String
   description String
   severity    String
+  riskScore   Int      @default(0)
   status      String
   assetId     String
   asset       Asset    @relation(fields: [assetId], references: [id])

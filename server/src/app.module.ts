@@ -10,9 +10,11 @@ import { VulnerabilitiesModule } from './vulnerabilities/vulnerabilities.module'
 import { RemediationModule } from './remediation/remediation.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { EventsModule } from './events/events.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
     UsersModule,
     AssetsModule,

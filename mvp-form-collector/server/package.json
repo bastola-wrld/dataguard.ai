@@ -1,0 +1,19 @@
+{
+  "name": "form-mvp-server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "db:push": "prisma db push"
+  }
+}

@@ -33,6 +33,14 @@ export class MockAwsService implements CloudProvider {
                 provider: 'AWS',
                 metadata: { instanceType: 't3.micro', publicIp: '1.2.3.4' },
             },
+            {
+                cloudId: 'arn:aws:rds:us-east-1:123456789012:db:customer-db',
+                name: 'customer-db',
+                type: 'RDS',
+                region: 'us-east-1',
+                provider: 'AWS',
+                metadata: { engine: 'postgres', publiclyAccessible: true, storageEncrypted: false },
+            },
         ];
     }
 }
