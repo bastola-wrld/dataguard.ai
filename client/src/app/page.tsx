@@ -376,7 +376,7 @@ export default function Dashboard() {
                 <h2 className="text-3xl font-extrabold mb-4">Feedback Intelligence</h2>
                 <p className="text-blue-100 max-w-xl mb-6">Insights collected from the NexGen Form MVP. Use this data to refine security policies based on organizational feedback.</p>
                 <Link
-                  href="/mvp-form-collector/client/index.html"
+                  href="/nexgen/index.html"
                   target="_blank"
                   className="inline-flex items-center gap-2 bg-white text-blue-600 px-6 py-3 rounded-xl font-bold hover:bg-blue-50 transition-all"
                 >
@@ -443,8 +443,8 @@ function NavItem({ icon, label, active, onClick }: { icon: React.ReactNode, labe
     <button
       onClick={onClick}
       className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${active
-          ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg shadow-black/10'
-          : 'text-zinc-500 hover:text-black dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900'
+        ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg shadow-black/10'
+        : 'text-zinc-500 hover:text-black dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900'
         }`}
     >
       {icon}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | NexGen Feedback</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="config.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="blob-bg"></div>
+    <div class="container">
+        <header>
+            <h1>Join <span>NexGen</span></h1>
+            <p>Establish your institutional credentials.</p>
+        </header>
+
+        <form id="signupForm" class="glass-card">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit">Create Identity</button>
+            <p style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem; color: var(--text-dim);">
+                Already have an account? <a href="login.html"
+                    style="color: var(--primary); text-decoration: none; font-weight: 600;">Sign In</a>
+            </p>
+        </form>
+    </div>
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const name = document.getElementById('name').value;
+
+            const res = await fetch(`${FORM_CONFIG.API_URL}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, name })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert('Account created! Please login.');
+                window.location.href = 'login.html';
+            } else {
+                alert(data.error);
+            }
+        });
+    </script>
+</body>
+
+</html>
